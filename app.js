@@ -1,5 +1,11 @@
 const express = require("express");
+const path = require("node:path"); 
 const app = express();
+
+// EJS
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 
 // Importa i router
 const authorRouter = require("./routes/authorRouter");
@@ -11,6 +17,7 @@ app.use("/authors", authorRouter);
 app.use("/books", bookRouter);
 app.use("/", indexRouter);
 
+// Error middleware
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send("Errore interno del server");
